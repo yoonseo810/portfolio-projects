@@ -16,12 +16,15 @@ import { createClient } from "@/lib/supabase/server";
 export type FormState = { error?: string; ok?: boolean };
 
 /** Starts an anonymous Supabase session so visitors can try the app without signing up. */
-export async function startDemo() {
+export async function startDemo(): Promise<FormState> {
   const supabase = await createClient();
   const { data } = await supabase.auth.getClaims();
   if (!data?.claims) {
     const { error } = await supabase.auth.signInAnonymously();
-    if (error) throw new Error(`Could not start a session: ${error.message}`);
+    if (error) {
+      console.error("signInAnonymously failed", error);
+      return { error: "Couldn't start a guest session right now. Please try again in a minute." };
+    }
   }
   redirect("/dashboard");
 }
