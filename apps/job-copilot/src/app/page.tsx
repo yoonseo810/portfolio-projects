@@ -1,3 +1,6 @@
+import { Backdrop } from "@repo/ui/backdrop";
+import { Card } from "@repo/ui/card";
+import { Eyebrow } from "@repo/ui/eyebrow";
 import { StartDemo } from "@/components/StartDemo";
 
 const steps = [
@@ -9,22 +12,28 @@ const steps = [
 
 export default function Home() {
   return (
-    <main className="mx-auto max-w-2xl px-4 py-16 sm:py-24">
-      <h1 className="text-4xl font-bold tracking-tight">Job-Search Copilot</h1>
-      <p className="mt-4 text-lg text-zinc-600 dark:text-zinc-400">
-        Turn a job posting into a fit score, a gap list and tailored resume bullets.
-      </p>
-      <StartDemo />
-      <ol className="mt-12 space-y-6">
+    <main className="mx-auto w-full max-w-4xl px-4 sm:px-6">
+      <section className="relative isolate pb-12 pt-20 text-center sm:pt-28">
+        <Backdrop />
+        <Eyebrow>AI-powered · Gemini + Vercel AI SDK</Eyebrow>
+        <h1 className="mx-auto mt-6 max-w-2xl text-4xl font-semibold tracking-tight sm:text-6xl sm:leading-[1.05]">
+          <span className="text-gradient">Know your fit before you apply.</span>
+        </h1>
+        <p className="mx-auto mt-5 max-w-xl text-lg leading-8 text-muted">
+          Turn a job posting into a fit score, a gap list and tailored resume bullets.
+        </p>
+        <StartDemo />
+      </section>
+      <ol className="grid gap-4 pb-16 sm:grid-cols-2">
         {steps.map((s, i) => (
-          <li key={s.title} className="flex gap-4">
-            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-zinc-300 font-mono text-sm dark:border-zinc-700">
-              {i + 1}
-            </span>
-            <div>
-              <h2 className="font-semibold">{s.title}</h2>
-              <p className="text-zinc-600 dark:text-zinc-400">{s.body}</p>
-            </div>
+          <li key={s.title}>
+            <Card interactive className="h-full p-6">
+              <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-accent/30 bg-accent/10 font-mono text-sm text-accent">
+                {i + 1}
+              </span>
+              <h2 className="mt-4 font-semibold tracking-tight">{s.title}</h2>
+              <p className="mt-1.5 leading-relaxed text-muted">{s.body}</p>
+            </Card>
           </li>
         ))}
       </ol>

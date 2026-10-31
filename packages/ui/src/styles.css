@@ -1,0 +1,128 @@
+/*
+ * Shared design system for every app in the monorepo.
+ * Import after Tailwind:  @import "tailwindcss"; @import "@repo/ui/styles.css";
+ * Direction: dark-first, precise surfaces, hairline borders, indigo→violet accent with soft glow.
+ */
+@source ".";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --bg: #fbfbfc;
+  --surface: #ffffff;
+  --surface-2: #f3f3f6;
+  --fg: #0b0b10;
+  --muted: #5b5b69;
+  --line: rgb(10 10 20 / 0.09);
+  --line-strong: rgb(10 10 20 / 0.16);
+  --accent: #5b4cf0;
+  --accent-2: #2563eb;
+  --accent-fg: #ffffff;
+  --success: #047857;
+  --warning: #b45309;
+  --danger: #be123c;
+  --glow: rgb(91 76 240 / 0.18);
+  color-scheme: light;
+}
+
+.dark {
+  --bg: #07070a;
+  --surface: #0e0e13;
+  --surface-2: #15151c;
+  --fg: #ededf2;
+  --muted: #9b9bab;
+  --line: rgb(255 255 255 / 0.08);
+  --line-strong: rgb(255 255 255 / 0.15);
+  --accent: #8b7dff;
+  --accent-2: #5b9bff;
+  --accent-fg: #ffffff;
+  --success: #34d399;
+  --warning: #fbbf24;
+  --danger: #fb7185;
+  --glow: rgb(139 125 255 / 0.28);
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+  --color-accent-fg: var(--accent-fg);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+  }
+  ::selection {
+    background: color-mix(in oklab, var(--accent) 35%, transparent);
+  }
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* Indigo→violet gradient text for display headings. */
+@utility text-gradient {
+  background-image: linear-gradient(110deg, var(--fg) 30%, var(--accent) 70%, var(--accent-2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Faint dotted grid, faded toward the edges. */
+@utility bg-grid {
+  background-image: radial-gradient(var(--line-strong) 1px, transparent 1px);
+  background-size: 22px 22px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 0%, black 30%, transparent 75%);
+}
+
+/* Soft accent glow on hover/focus for interactive surfaces. */
+@utility glow-hover {
+  transition:
+    border-color 150ms,
+    box-shadow 200ms,
+    transform 200ms;
+  &:hover,
+  &:focus-within {
+    border-color: color-mix(in oklab, var(--accent) 45%, var(--line));
+    box-shadow:
+      0 0 0 1px color-mix(in oklab, var(--accent) 25%, transparent),
+      0 12px 40px -12px var(--glow);
+  }
+}
+
+/* Top highlight that makes dark cards read as raised. */
+@utility surface-sheen {
+  background-image: linear-gradient(180deg, rgb(255 255 255 / 0.035), transparent 40%);
+}

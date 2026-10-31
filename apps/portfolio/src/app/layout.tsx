@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { themeScript } from "@repo/ui/theme";
 import { profile } from "@/content/profile";
 import "./globals.css";
 
@@ -12,9 +13,6 @@ export const metadata: Metadata = {
   description: profile.summary,
   openGraph: { title: profile.name, description: profile.summary, type: "website" },
 };
-
-// Applies the saved or system theme before paint to avoid a flash.
-const themeScript = `try{var t=localStorage.getItem("theme");if(t==="dark"||(!t&&matchMedia("(prefers-color-scheme: dark)").matches))document.documentElement.classList.add("dark")}catch(e){}`;
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
@@ -29,7 +27,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full font-sans">
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:rounded focus:bg-bg focus:px-3 focus:py-2"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:rounded focus:z-50 focus:bg-surface focus:px-3 focus:py-2"
         >
           Skip to content
         </a>

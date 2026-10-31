@@ -32,6 +32,8 @@ import {
   positionAt,
   throttle,
 } from "@/lib/board";
+import { buttonClass } from "@repo/ui/button";
+import { cn } from "@repo/ui/cn";
 import { createClient } from "@/lib/supabase/browser";
 
 type Me = { id: string; name: string; color: string };
@@ -151,20 +153,19 @@ export function Board({ boardId, initialCards, me }: { boardId: string; initialC
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap items-center gap-3 text-sm">
-        <span className="inline-flex items-center gap-1.5">
+        <span className="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-3 py-1 text-muted">
           <span
             aria-hidden
-            className={`h-2 w-2 rounded-full ${status === "live" ? "bg-emerald-500" : status === "offline" ? "bg-rose-500" : "bg-amber-400"}`}
+            className={cn("h-2 w-2 rounded-full", status === "live" ? "animate-pulse bg-success shadow-[0_0_8px_var(--success)]" : status === "offline" ? "bg-danger" : "bg-warning")}
           />
           {status === "live" ? "Live" : status === "offline" ? "Offline: changes still save" : "Connecting…"}
         </span>
-        <span className="text-zinc-400">·</span>
-        <ul aria-label="People on this board" className="flex items-center gap-1">
+                <ul aria-label="People on this board" className="flex items-center -space-x-1.5">
           {[me, ...peers].map((p) => (
             <li
               key={p.id}
               title={p.id === me.id ? `${p.name} (you)` : p.name}
-              className="flex h-7 items-center rounded-full px-2.5 text-xs font-medium text-white"
+              className="flex h-7 items-center rounded-full px-2.5 text-xs font-medium text-white ring-2 ring-bg"
               style={{ background: p.color }}
             >
               {p.id === me.id ? "You" : p.name.replace("Guest ", "")}
@@ -174,13 +175,13 @@ export function Board({ boardId, initialCards, me }: { boardId: string; initialC
         <button
           type="button"
           onClick={() => navigator.clipboard?.writeText(window.location.href)}
-          className="ml-auto rounded-md border border-zinc-300 px-3 py-1 hover:border-zinc-900 dark:border-zinc-700 dark:hover:border-zinc-100"
+          className={buttonClass({ variant: "secondary", size: "sm", className: "ml-auto" })}
         >
           Copy invite link
         </button>
       </div>
       {error && (
-        <p role="alert" className="text-sm text-rose-700 dark:text-rose-400">
+        <p role="alert" className="text-sm text-danger">
           {error}
         </p>
       )}
@@ -221,7 +222,7 @@ export function Board({ boardId, initialCards, me }: { boardId: string; initialC
               <svg width="16" height="16" viewBox="0 0 16 16" style={{ color: p.color }}>
                 <path d="M1 1l5 14 2-6 6-2z" fill="currentColor" stroke="white" strokeWidth="1" />
               </svg>
-              <span className="ml-3 rounded px-1.5 py-0.5 text-xs text-white" style={{ background: p.color }}>
+              <span className="ml-3 rounded-md px-1.5 py-0.5 text-xs font-medium text-white shadow-lg" style={{ background: p.color }}>
                 {p.name}
               </span>
             </div>
@@ -231,6 +232,12 @@ export function Board({ boardId, initialCards, me }: { boardId: string; initialC
     </div>
   );
 }
+
+const DOT: Record<ColumnId, string> = {
+  todo: "bg-muted",
+  doing: "bg-warning",
+  done: "bg-success",
+};
 
 function Column({
   id,
@@ -250,11 +257,12 @@ function Column({
   return (
     <section
       aria-labelledby={`col-${id}`}
-      className={`flex min-h-64 flex-col gap-3 rounded-xl border p-3 ${isOver ? "border-teal-500" : "border-zinc-200 dark:border-zinc-800"} bg-zinc-50 dark:bg-zinc-900/40`}
+      className={cn("flex min-h-72 flex-col gap-3 rounded-2xl border bg-surface-2/50 p-3 transition-colors", isOver ? "border-accent/60 bg-accent/5" : "border-line")}
     >
-      <h2 id={`col-${id}`} className="flex items-center justify-between px-1 text-sm font-semibold">
+      <h2 id={`col-${id}`} className="flex items-center gap-2 px-1.5 pt-1 text-sm font-semibold">
+        <span aria-hidden className={cn("h-2 w-2 rounded-full", DOT[id])} />
         {title}
-        <span className="rounded-full bg-zinc-200 px-2 text-xs dark:bg-zinc-800">{cards.length}</span>
+        <span className="ml-auto rounded-full border border-line bg-surface px-2 font-mono text-xs text-muted">{cards.length}</span>
       </h2>
       <SortableContext id={id} items={cards.map((c) => c.id)} strategy={verticalListSortingStrategy}>
         <ul ref={setNodeRef} className="flex flex-1 flex-col gap-2">
@@ -279,7 +287,7 @@ function Column({
           value={draft}
           onChange={(e) => setDraft(e.target.value)}
           placeholder="+ Add a card"
-          className="w-full rounded-md border border-transparent bg-transparent px-2 py-1.5 text-sm placeholder:text-zinc-500 focus:border-zinc-300 focus:bg-white dark:focus:border-zinc-700 dark:focus:bg-zinc-950"
+          className="w-full rounded-lg border border-dashed border-line-strong bg-transparent px-3 py-2 text-sm placeholder:text-muted focus:border-solid focus:border-accent focus:bg-surface focus:outline-none focus:ring-4 focus:ring-accent/15"
         />
       </form>
     </section>
@@ -292,14 +300,14 @@ function SortableCard({ card, onDelete }: { card: Card; onDelete: () => void }) 
     <li
       ref={setNodeRef}
       style={{ transform: CSS.Transform.toString(transform), transition }}
-      className={`group flex items-start gap-2 rounded-lg border border-zinc-200 bg-white p-3 text-sm shadow-sm dark:border-zinc-800 dark:bg-zinc-950 ${isDragging ? "opacity-60 ring-2 ring-teal-500" : ""}`}
+      className={cn("surface-sheen group flex items-start gap-2 rounded-xl border border-line bg-surface p-3 text-sm shadow-[0_1px_2px_rgb(0_0_0/0.2)] transition-[border-color,box-shadow] hover:border-line-strong", isDragging && "z-10 border-accent/60 opacity-80 shadow-[0_16px_40px_-12px_var(--glow)]")}
     >
       <button
         type="button"
         {...attributes}
         {...listeners}
         aria-label={`Move "${card.title}"`}
-        className="cursor-grab touch-none text-zinc-400 hover:text-zinc-700 active:cursor-grabbing dark:hover:text-zinc-200"
+        className="cursor-grab touch-none text-muted/60 hover:text-fg active:cursor-grabbing"
       >
         ⠿
       </button>
@@ -308,7 +316,7 @@ function SortableCard({ card, onDelete }: { card: Card; onDelete: () => void }) 
         type="button"
         onClick={onDelete}
         aria-label={`Delete "${card.title}"`}
-        className="text-zinc-400 opacity-0 hover:text-rose-600 focus:opacity-100 group-hover:opacity-100"
+        className="text-muted opacity-0 transition-opacity hover:text-danger focus:opacity-100 group-hover:opacity-100"
       >
         ×
       </button>
