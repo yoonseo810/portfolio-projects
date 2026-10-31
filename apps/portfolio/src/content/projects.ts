@@ -38,6 +38,7 @@ export const projects: Project[] = [
       "Server-rendered Next.js site with typed content, dark mode, accessible navigation and CI on every pull request.",
     stack: ["Next.js", "TypeScript", "Tailwind CSS", "Vitest"],
     status: "live",
+    demoUrl: "https://portfolio-projects-wine.vercel.app",
     codeUrl: `${repo}/portfolio`,
   },
 ];
