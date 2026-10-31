@@ -1,4 +1,4 @@
-import { startDemo } from "./actions";
+import { StartDemo } from "@/components/StartDemo";
 
 const steps = [
   { title: "Paste a job posting", body: "The model extracts each requirement and whether it's a must-have or a nice-to-have." },
@@ -14,12 +14,7 @@ export default function Home() {
       <p className="mt-4 text-lg text-zinc-600 dark:text-zinc-400">
         Turn a job posting into a fit score, a gap list and tailored resume bullets.
       </p>
-      <form action={startDemo} className="mt-8">
-        <button className="rounded-md bg-zinc-900 px-5 py-2.5 font-medium text-white dark:bg-zinc-100 dark:text-zinc-900">
-          Try it, no sign-up
-        </button>
-        <p className="mt-2 text-sm text-zinc-500">Starts a private guest session. Sample data is one click away.</p>
-      </form>
+      <StartDemo />
       <ol className="mt-12 space-y-6">
         {steps.map((s, i) => (
           <li key={s.title} className="flex gap-4">
