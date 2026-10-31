@@ -24,8 +24,11 @@ describe("ProjectCard", () => {
         project={{ ...base, name: "Board", slug: "b", status: "live", demoUrl: "https://d", codeUrl: "https://c" }}
       />,
     );
-    expect(screen.getByRole("link", { name: "Live demo of Board" })).toHaveAttribute("href", "https://d");
-    expect(screen.getByRole("link", { name: "Code for Board" })).toHaveAttribute("href", "https://c");
+    const demo = screen.getByRole("link", { name: "Live demo of Board (opens in a new tab)" });
+    expect(demo).toHaveAttribute("href", "https://d");
+    expect(demo).toHaveAttribute("target", "_blank");
+    expect(demo).toHaveAttribute("rel", "noopener noreferrer");
+    expect(screen.getByRole("link", { name: "Code for Board (opens in a new tab)" })).toHaveAttribute("href", "https://c");
     expect(screen.getByText("Live")).toBeInTheDocument();
   });
 
