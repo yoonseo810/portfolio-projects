@@ -7,6 +7,7 @@ const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://portfolio-projects-wine.vercel.app"),
   title: `${profile.name} · ${profile.role}`,
   description: profile.summary,
   openGraph: { title: profile.name, description: profile.summary, type: "website" },

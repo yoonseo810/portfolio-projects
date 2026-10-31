@@ -2,9 +2,11 @@
 
 Monorepo for my portfolio site and portfolio projects.
 
+**Live site:** https://portfolio-projects-wine.vercel.app
+
 | App | What it is | Status |
 | --- | --- | --- |
-| [`apps/portfolio`](apps/portfolio) | Personal portfolio site | In progress |
+| [`apps/portfolio`](apps/portfolio) | Personal portfolio site | [Live](https://portfolio-projects-wine.vercel.app) |
 | `apps/job-copilot` | AI job-search copilot: parses postings, scores fit, drafts tailored bullets | Planned |
 | `apps/realtime-board` | Real-time collaborative board with presence and live cursors | Planned |
 
