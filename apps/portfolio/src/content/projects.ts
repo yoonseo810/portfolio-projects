@@ -17,9 +17,10 @@ export const projects: Project[] = [
     slug: "job-copilot",
     name: "AI Job-Search Copilot",
     tagline:
-      "Parses job postings into structured requirements, scores fit against a resume and drafts tailored bullets, with an eval suite to measure quality.",
-    stack: ["Next.js", "TypeScript", "PostgreSQL", "Supabase", "Drizzle", "Vercel AI SDK"],
-    status: "planned",
+      "Paste a job posting to get a fit score, ranked gaps and tailored resume bullets. Gemini judges each requirement with quoted evidence; the score is computed in code so it stays explainable.",
+    stack: ["Next.js 16", "TypeScript", "Supabase", "PostgreSQL", "Drizzle", "Vercel AI SDK", "Gemini"],
+    status: "live",
+    demoUrl: "https://portfolio-projects-xdrt.vercel.app",
     codeUrl: `${repo}/job-copilot`,
   },
   {
