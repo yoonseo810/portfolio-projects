@@ -3,6 +3,7 @@ import { buttonClass } from "@repo/ui/button";
 import { Card } from "@repo/ui/card";
 import { cn } from "@repo/ui/cn";
 import { Eyebrow } from "@repo/ui/eyebrow";
+import { ExternalLink } from "@repo/ui/external-link";
 import { SiteHeader } from "@repo/ui/site-header";
 import { ProjectCard } from "@/components/ProjectCard";
 import { experience, profile, skills } from "@/content/profile";
@@ -64,13 +65,13 @@ export default function Home() {
             <a href="#projects" className={buttonClass({ size: "lg" })}>
               See projects
             </a>
-            <a href={profile.github} className={buttonClass({ variant: "secondary", size: "lg" })}>
+            <ExternalLink href={profile.github} className={buttonClass({ variant: "secondary", size: "lg" })}>
               GitHub
-            </a>
+            </ExternalLink>
             {profile.linkedin && (
-              <a href={profile.linkedin} className={buttonClass({ variant: "secondary", size: "lg" })}>
+              <ExternalLink href={profile.linkedin} className={buttonClass({ variant: "secondary", size: "lg" })}>
                 LinkedIn
-              </a>
+              </ExternalLink>
             )}
             <a href={`mailto:${profile.email}`} className={buttonClass({ variant: "ghost", size: "lg" })}>
               Email
@@ -154,9 +155,9 @@ export default function Home() {
                 {profile.email}
               </a>
               {profile.linkedin && (
-                <a href={profile.linkedin} className={buttonClass({ variant: "secondary", size: "lg" })}>
+                <ExternalLink href={profile.linkedin} className={buttonClass({ variant: "secondary", size: "lg" })}>
                   LinkedIn
-                </a>
+                </ExternalLink>
               )}
             </div>
           </Card>
@@ -165,9 +166,9 @@ export default function Home() {
 
       <footer className="mx-auto max-w-5xl border-t border-line px-4 py-8 text-sm text-muted sm:px-6">
         Built with Next.js, Tailwind CSS and a shared design system.{" "}
-        <a href="https://github.com/yoonseo810/portfolio-projects" className="text-fg underline decoration-line-strong underline-offset-4 hover:decoration-accent">
+        <ExternalLink href="https://github.com/yoonseo810/portfolio-projects" className="text-fg underline decoration-line-strong underline-offset-4 hover:decoration-accent">
           Source on GitHub
-        </a>
+        </ExternalLink>
         .
       </footer>
     </>

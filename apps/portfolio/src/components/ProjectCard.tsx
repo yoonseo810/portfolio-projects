@@ -1,6 +1,7 @@
 import { Badge } from "@repo/ui/badge";
 import { Card } from "@repo/ui/card";
 import { cn } from "@repo/ui/cn";
+import { ExternalLink } from "@repo/ui/external-link";
 import { type Project, statusLabel } from "@/content/projects";
 
 function Arrow() {
@@ -32,16 +33,16 @@ export function ProjectCard({ project, className }: { project: Project; classNam
         </ul>
         <div className="mt-auto flex gap-5 pt-2 text-sm font-medium">
           {demoUrl && (
-            <a href={demoUrl} className="group/link inline-flex items-center gap-1 text-accent hover:text-fg">
+            <ExternalLink href={demoUrl} className="group/link inline-flex items-center gap-1 text-accent hover:text-fg">
               Live demo{" "}<span className="sr-only">of {name}</span>
               <Arrow />
-            </a>
+            </ExternalLink>
           )}
           {codeUrl && status !== "planned" && (
-            <a href={codeUrl} className="group/link inline-flex items-center gap-1 text-muted hover:text-fg">
+            <ExternalLink href={codeUrl} className="group/link inline-flex items-center gap-1 text-muted hover:text-fg">
               Code{" "}<span className="sr-only">for {name}</span>
               <Arrow />
-            </a>
+            </ExternalLink>
           )}
         </div>
       </article>
