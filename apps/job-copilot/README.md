@@ -1,5 +1,7 @@
 # Job-Search Copilot
 
+**Live demo:** https://portfolio-projects-xdrt.vercel.app (no sign-up)
+
 Paste a job posting, get a fit score against your resume, a ranked gap list and tailored resume bullets, then track the application's status.
 
 ## How it works
