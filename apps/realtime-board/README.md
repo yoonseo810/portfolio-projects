@@ -2,6 +2,8 @@
 
 A shareable kanban board with live cursors, presence, and drag and drop. Create a board, send the invite link, and everyone on it sees cards and cursors move in real time. Guests join anonymously, with no sign-up.
 
+**Live demo:** https://portfolio-projects-j5mr.vercel.app (no sign-up)
+
 ## How it works
 
 - **Server is the source of truth.** Cards live in Postgres (Supabase) and are written through Next.js server actions with Drizzle. Each write is validated with Zod and only applied if it is newer than the stored row (`ON CONFLICT … WHERE updated_at < excluded.updated_at`).

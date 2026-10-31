@@ -27,9 +27,10 @@ export const projects: Project[] = [
     slug: "realtime-board",
     name: "Real-Time Collaborative Board",
     tagline:
-      "Multi-user board with live cursors, presence, optimistic updates and offline-tolerant sync.",
-    stack: ["Next.js", "TypeScript", "Supabase Realtime", "dnd-kit"],
-    status: "planned",
+      "Shareable kanban board with live cursors, presence and accessible drag and drop. Optimistic updates sync over Supabase Realtime, and a tested last-write-wins reducer keeps everyone's board consistent.",
+    stack: ["Next.js 16", "TypeScript", "Supabase Realtime", "PostgreSQL", "Drizzle", "dnd-kit"],
+    status: "live",
+    demoUrl: "https://portfolio-projects-j5mr.vercel.app",
     codeUrl: `${repo}/realtime-board`,
   },
   {
