@@ -17,7 +17,7 @@ Next.js 16 · TypeScript · Supabase (Postgres + Auth) · Drizzle ORM · Zod · 
 ## Local setup
 
 ```bash
-cp .env.example .env.local   # fill in Supabase and Anthropic values
+cp .env.example .env.local   # fill in Supabase and Gemini values
 pnpm install
 pnpm --filter job-copilot db:migrate
 pnpm --filter job-copilot dev
