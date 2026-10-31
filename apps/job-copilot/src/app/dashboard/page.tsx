@@ -1,3 +1,4 @@
+import { Card } from "@repo/ui/card";
 import Link from "next/link";
 import { Suspense } from "react";
 import { analyzePosting, saveResume } from "@/app/actions";
@@ -10,9 +11,10 @@ import { SAMPLE_POSTING, SAMPLE_RESUME } from "@/lib/samples";
 
 export default function DashboardPage() {
   return (
-    <main className="mx-auto max-w-3xl px-4 py-10">
-      <h1 className="text-2xl font-bold">Dashboard</h1>
-      <Suspense fallback={<p className="mt-8 text-zinc-500">Loading…</p>}>
+    <main className="mx-auto w-full max-w-4xl px-4 py-10 sm:px-6">
+      <h1 className="text-3xl font-semibold tracking-tight">Dashboard</h1>
+      <p className="mt-1 text-muted">Save your resume once, then analyze as many postings as you like.</p>
+      <Suspense fallback={<p className="mt-8 text-muted">Loading…</p>}>
         <Dashboard />
       </Suspense>
     </main>
@@ -29,7 +31,7 @@ async function Dashboard() {
 
   return (
     <div className="mt-8 space-y-12">
-      <section aria-labelledby="new-title" className="space-y-8">
+      <section aria-labelledby="new-title" className="grid gap-4 lg:grid-cols-2">
         <h2 id="new-title" className="sr-only">
           New analysis
         </h2>
@@ -56,24 +58,26 @@ async function Dashboard() {
       </section>
 
       <section aria-labelledby="jobs-title">
-        <h2 id="jobs-title" className="mb-4 text-lg font-semibold">
+        <h2 id="jobs-title" className="mb-4 text-lg font-semibold tracking-tight">
           Applications
         </h2>
         {jobList.length === 0 ? (
-          <p className="text-zinc-500">No jobs analyzed yet.</p>
+          <Card className="p-8 text-center text-muted">No jobs analyzed yet. Paste a posting above to get your first score.</Card>
         ) : (
-          <ul className="divide-y divide-zinc-200 rounded-lg border border-zinc-200 dark:divide-zinc-800 dark:border-zinc-800">
+          <Card className="overflow-hidden">
+          <ul className="divide-y divide-line">
             {jobList.map((j) => (
-              <li key={j.id} className="flex items-center gap-4 p-4">
+              <li key={j.id} className="flex items-center gap-4 px-5 py-4 transition-colors hover:bg-surface-2">
                 {scores.has(j.id) && <ScoreBadge score={scores.get(j.id)!} />}
-                <Link href={`/jobs/${j.id}`} className="min-w-0 flex-1 hover:underline">
+                <Link href={`/jobs/${j.id}`} className="min-w-0 flex-1 hover:text-accent">
                   <span className="block truncate font-medium">{j.title}</span>
-                  <span className="block truncate text-sm text-zinc-500">{j.company}</span>
+                  <span className="block truncate text-sm text-muted">{j.company}</span>
                 </Link>
                 <StatusSelect jobId={j.id} status={j.status} />
               </li>
             ))}
           </ul>
+          </Card>
         )}
       </section>
     </div>

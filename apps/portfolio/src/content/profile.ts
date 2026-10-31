@@ -4,7 +4,7 @@ export const profile = {
   location: "Richmond Hill, ON · open to remote",
   email: "yoonseong.seo810@gmail.com",
   github: "https://github.com/yoonseo810",
-  linkedin: "", // TODO: add LinkedIn URL
+  linkedin: "https://www.linkedin.com/in/yoonseong-seo-373b84234",
   summary:
     "Front-end developer with 3 years of production experience building React and TypeScript applications for airport self-service systems and payment platforms. Expanding into full-stack work with Next.js, Postgres and AI-powered features.",
 };

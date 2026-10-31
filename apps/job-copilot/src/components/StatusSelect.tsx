@@ -1,5 +1,6 @@
 "use client";
 
+import { fieldClass } from "@repo/ui/field";
 import { updateStatus } from "@/app/actions";
 
 const labels = {
@@ -21,7 +22,7 @@ export function StatusSelect({ jobId, status }: { jobId: string; status: keyof t
         name="status"
         defaultValue={status}
         onChange={(e) => e.currentTarget.form?.requestSubmit()}
-        className="rounded-md border border-zinc-300 bg-transparent px-2 py-1 text-sm dark:border-zinc-700"
+        className={fieldClass("w-auto py-1.5 pr-8")}
       >
         {Object.entries(labels).map(([value, label]) => (
           <option key={value} value={value}>

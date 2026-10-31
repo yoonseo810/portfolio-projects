@@ -1,6 +1,9 @@
 "use client";
 
 import { useActionState, useRef } from "react";
+import { buttonClass } from "@repo/ui/button";
+import { Card } from "@repo/ui/card";
+import { fieldClass } from "@repo/ui/field";
 import type { FormState } from "@/app/actions";
 
 type Props = {
@@ -32,6 +35,7 @@ export function TextForm({
   const errId = `${name}-error`;
 
   return (
+    <Card className="p-5 sm:p-6">
     <form action={formAction} className="flex flex-col gap-3">
       <div className="flex items-center justify-between">
         <label htmlFor={id} className="font-semibold">
@@ -42,7 +46,7 @@ export function TextForm({
           onClick={() => {
             if (ref.current) ref.current.value = sample;
           }}
-          className="text-sm text-teal-700 underline-offset-4 hover:underline dark:text-teal-400"
+          className={buttonClass({ variant: "ghost", size: "sm", className: "text-accent" })}
         >
           Use sample
         </button>
@@ -55,26 +59,27 @@ export function TextForm({
         defaultValue={defaultValue}
         aria-invalid={!!state.error}
         aria-describedby={state.error ? errId : undefined}
-        className="w-full rounded-lg border border-zinc-300 bg-transparent p-3 font-mono text-sm dark:border-zinc-700"
+        className={fieldClass("font-mono leading-relaxed")}
       />
       <div className="flex items-center gap-3">
         <button
           type="submit"
           disabled={pending}
-          className="rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white disabled:opacity-60 dark:bg-zinc-100 dark:text-zinc-900"
+          className={buttonClass()}
         >
           {pending ? pendingLabel : submitLabel}
         </button>
         <p role="status" aria-live="polite" className="text-sm">
           {state.error ? (
-            <span id={errId} className="text-red-700 dark:text-red-400">
+            <span id={errId} className="text-danger">
               {state.error}
             </span>
           ) : state.ok && savedLabel ? (
-            <span className="text-zinc-500">{savedLabel}</span>
+            <span className="text-success">{savedLabel}</span>
           ) : null}
         </p>
       </div>
     </form>
+    </Card>
   );
 }

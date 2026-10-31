@@ -1,23 +1,21 @@
 "use client";
 
 import { useActionState } from "react";
+import { buttonClass } from "@repo/ui/button";
 import { startDemo } from "@/app/actions";
 
 export function StartDemo() {
   const [state, action, pending] = useActionState(startDemo, {});
   return (
-    <form action={action} className="mt-8">
-      <button
-        disabled={pending}
-        className="rounded-md bg-zinc-900 px-5 py-2.5 font-medium text-white disabled:opacity-60 dark:bg-zinc-100 dark:text-zinc-900"
-      >
+    <form action={action} className="mt-8 flex flex-col items-center gap-3">
+      <button disabled={pending} className={buttonClass({ size: "lg" })}>
         {pending ? "Starting…" : "Try it, no sign-up"}
       </button>
-      <p role="status" aria-live="polite" className="mt-2 text-sm">
+      <p role="status" aria-live="polite" className="text-sm">
         {state.error ? (
-          <span className="text-red-700 dark:text-red-400">{state.error}</span>
+          <span className="text-danger">{state.error}</span>
         ) : (
-          <span className="text-zinc-500">Starts a private guest session. Sample data is one click away.</span>
+          <span className="text-muted">Starts a private guest session. Sample data is one click away.</span>
         )}
       </p>
     </form>
