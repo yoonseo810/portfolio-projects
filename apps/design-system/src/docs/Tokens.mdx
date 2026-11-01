@@ -1,0 +1,14 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+import { Swatches } from "./Swatches";
+
+<Meta title="Foundations/Color tokens" />
+
+# Color tokens
+
+Each token is a CSS variable defined twice, once under `:root` (light) and once under `.dark`,
+and mapped to a Tailwind color with `@theme inline`. So `bg-surface` or `text-danger` switches with the theme
+without any `dark:` variants in component code.
+
+Every story is tested with axe in both themes, so text and status colors must meet WCAG AA contrast wherever they are used. That check is why the light `--warning` is a darker amber (`#92400e`): the lighter one measured 4.24:1 on a warning badge.
+
+<Swatches />

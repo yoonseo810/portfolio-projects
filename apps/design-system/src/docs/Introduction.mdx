@@ -1,0 +1,34 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Introduction" />
+
+# @repo/ui
+
+The shared design system behind every app in this monorepo:
+the [portfolio](https://portfolio-projects-wine.vercel.app),
+the [AI Job-Search Copilot](https://portfolio-projects-xdrt.vercel.app) and the
+[Realtime Board](https://portfolio-projects-j5mr.vercel.app).
+
+**Direction:** dark-first, precise surfaces, hairline borders, an indigo-to-violet accent with a soft glow.
+Use the paintbrush in the toolbar to switch between dark and light.
+
+## Principles
+
+- **Tokens, not hex codes.** Components use semantic tokens (`bg-surface`, `text-muted`, `border-line`), so one set of CSS variables drives both themes.
+- **Accessible by default.** Every story runs as a test in a real browser with axe; any violation fails CI. Interactive components follow the WAI-ARIA patterns and have keyboard tests.
+- **Small API surface.** Plain React components and class helpers (`buttonClass`, `fieldClass`) so links, forms and server components can share the look without wrappers.
+
+## Use it in an app
+
+```css
+/* globals.css */
+@import "tailwindcss";
+@import "@repo/ui/styles.css";
+```
+
+```tsx
+import { Button } from "@repo/ui/button";
+import { Card } from "@repo/ui/card";
+```
+
+Next.js apps also add `transpilePackages: ["@repo/ui"]` to `next.config.ts`.
