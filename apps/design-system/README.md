@@ -8,7 +8,7 @@ Documentation and tests for [`@repo/ui`](../../packages/ui), the shared design s
 
 - **Introduction** and **Color tokens** pages. The swatches read the live CSS variables, so they follow the theme toolbar.
 - A story for every component, with controls and auto-generated prop tables.
-- **Interaction tests** (`play` functions) for behavior that matters: keyboard navigation in `Tabs`, focus trapping, Escape and focus return in `Dialog`, and the theme toggle.
+- **Interaction tests** (`play` functions) for behavior that matters: keyboard navigation in `Tabs`, focus trapping, Escape and focus return in `Dialog`, switch and checkbox keyboard toggling, tooltip on focus with Escape, toast announce and dismiss, exclusive accordion items, label/hint/error wiring on form fields, and the theme toggle.
 
 ## Tests
 
