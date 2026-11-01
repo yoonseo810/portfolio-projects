@@ -3,6 +3,7 @@ import { Card } from "@repo/ui/card";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
+import { DeleteJobButton } from "@/components/DeleteJobButton";
 import { ScoreBadge } from "@/components/ScoreBadge";
 import { StatusSelect } from "@/components/StatusSelect";
 import { requireUserId } from "@/lib/auth";
@@ -56,7 +57,10 @@ async function JobDetail({ params }: { params: Promise<{ id: string }> }) {
           <h1 className="text-3xl font-semibold tracking-tight">{job.title}</h1>
           <p className="mt-1 text-muted">{job.company}</p>
         </div>
-        <StatusSelect jobId={job.id} status={job.status} />
+        <div className="flex items-center gap-2">
+          <StatusSelect jobId={job.id} status={job.status} />
+          <DeleteJobButton jobId={job.id} label={`${job.title} at ${job.company}`} fromDetail />
+        </div>
       </header>
 
       {!analysis ? (

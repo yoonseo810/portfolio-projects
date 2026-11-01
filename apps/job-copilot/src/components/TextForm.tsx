@@ -41,15 +41,29 @@ export function TextForm({
         <label htmlFor={id} className="font-semibold">
           {label}
         </label>
-        <button
-          type="button"
-          onClick={() => {
-            if (ref.current) ref.current.value = sample;
-          }}
-          className={buttonClass({ variant: "ghost", size: "sm", className: "text-accent" })}
-        >
-          Use sample
-        </button>
+        <div className="flex items-center gap-1">
+          <button
+            type="button"
+            onClick={() => {
+              if (!ref.current) return;
+              ref.current.value = "";
+              ref.current.focus();
+            }}
+            aria-label={`Clear ${label.replace(/^\d+\.\s*/, "").toLowerCase()}`}
+            className={buttonClass({ variant: "ghost", size: "sm" })}
+          >
+            Clear
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              if (ref.current) ref.current.value = sample;
+            }}
+            className={buttonClass({ variant: "ghost", size: "sm", className: "text-accent" })}
+          >
+            Use sample
+          </button>
+        </div>
       </div>
       <textarea
         ref={ref}

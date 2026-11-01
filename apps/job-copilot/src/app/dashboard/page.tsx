@@ -2,6 +2,7 @@ import { Card } from "@repo/ui/card";
 import Link from "next/link";
 import { Suspense } from "react";
 import { analyzePosting, saveResume } from "@/app/actions";
+import { DeleteJobButton } from "@/components/DeleteJobButton";
 import { ScoreBadge } from "@/components/ScoreBadge";
 import { StatusSelect } from "@/components/StatusSelect";
 import { TextForm } from "@/components/TextForm";
@@ -74,6 +75,7 @@ async function Dashboard() {
                   <span className="block truncate text-sm text-muted">{j.company}</span>
                 </Link>
                 <StatusSelect jobId={j.id} status={j.status} />
+                <DeleteJobButton jobId={j.id} label={`${j.title} at ${j.company}`} />
               </li>
             ))}
           </ul>
