@@ -1,7 +1,7 @@
 "use server";
 
 import { google } from "@ai-sdk/google";
-import { and, eq } from "drizzle-orm";
+import { and, eq, isNull } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
@@ -108,7 +108,26 @@ export async function updateStatus(jobId: string, form: FormData) {
   await db
     .update(jobs)
     .set({ status })
-    .where(and(eq(jobs.id, jobId), eq(jobs.userId, userId)));
+    .where(and(eq(jobs.id, jobId), eq(jobs.userId, userId), isNull(jobs.deletedAt)));
   revalidatePath("/dashboard");
   revalidatePath(`/jobs/${jobId}`);
+}
+
+const jobIdSchema = z.uuid();
+
+/**
+ * Removes a job (and its analyses) from the user's view. It's a soft delete:
+ * see `jobs.deletedAt`. Pass `fromDetail` when called from the job's own page,
+ * which no longer exists afterwards.
+ */
+export async function deleteJob(jobId: string, fromDetail = false) {
+  const userId = await requireUserId();
+  const id = jobIdSchema.parse(jobId);
+  await db
+    .update(jobs)
+    .set({ deletedAt: new Date() })
+    .where(and(eq(jobs.id, id), eq(jobs.userId, userId), isNull(jobs.deletedAt)));
+  revalidatePath("/dashboard");
+  revalidatePath(`/jobs/${id}`);
+  if (fromDetail) redirect("/dashboard");
 }

@@ -53,6 +53,11 @@ export const jobs = pgTable(
     posting: text("posting").notNull(),
     requirements: jsonb("requirements").$type<JobRequirements>(),
     status: jobStatus("status").notNull().default("saved"),
+    /**
+     * Set when the user removes the job. Rows are kept (hidden everywhere) so
+     * deleting can't be used to reset the daily analysis limit.
+     */
+    deletedAt: timestamp("deleted_at", { withTimezone: true }),
     ...timestamps,
   },
   (t) => [index("jobs_user_status_idx").on(t.userId, t.status)],
