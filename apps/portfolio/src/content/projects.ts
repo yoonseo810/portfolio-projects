@@ -34,6 +34,15 @@ export const projects: Project[] = [
     codeUrl: `${repo}/realtime-board`,
   },
   {
+    slug: "design-system",
+    name: "Design System",
+    tagline:
+      "The shared UI library behind every app here, documented in Storybook. Each story runs as a browser test with axe in both themes, and keyboard tests cover accessible tabs and dialogs.",
+    stack: ["React", "TypeScript", "Tailwind CSS", "Storybook", "Vitest", "axe", "Playwright"],
+    status: "in-progress",
+    codeUrl: `${repo}/design-system`,
+  },
+  {
     slug: "portfolio",
     name: "This portfolio",
     tagline:

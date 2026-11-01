@@ -1,0 +1,12 @@
+@import "tailwindcss";
+@import "@repo/ui/styles.css";
+@import "@fontsource-variable/geist";
+@import "@fontsource-variable/geist-mono";
+
+/* Stories scan the shared package and this app for class names. */
+@source "../src";
+
+:root {
+  --font-geist-sans: "Geist Variable";
+  --font-geist-mono: "Geist Mono Variable";
+}
