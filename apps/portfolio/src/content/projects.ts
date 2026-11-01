@@ -39,7 +39,8 @@ export const projects: Project[] = [
     tagline:
       "The shared UI library behind every app here, documented in Storybook. Each story runs as a browser test with axe in both themes, and keyboard tests cover accessible tabs and dialogs.",
     stack: ["React", "TypeScript", "Tailwind CSS", "Storybook", "Vitest", "axe", "Playwright"],
-    status: "in-progress",
+    status: "live",
+    demoUrl: "https://portfolio-projects-gtds.vercel.app",
     codeUrl: `${repo}/design-system`,
   },
   {
