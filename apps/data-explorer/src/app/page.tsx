@@ -10,7 +10,7 @@ export default function Home() {
         <span className="text-gradient">Where and when the subway slows down</span>
       </h1>
       <p className="mt-3 max-w-2xl text-muted">
-        Every reported TTC subway delay, filterable by date, line, station, cause and hour. Filters live in the URL, so any
+        Every reported TTC subway delay since January 2025, filterable by date, line, station, cause and hour. Filters live in the URL, so any
         view can be shared. Click a bar to drill in.
       </p>
       <div className="mt-8">

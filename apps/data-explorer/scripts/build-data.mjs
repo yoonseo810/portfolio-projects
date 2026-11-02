@@ -10,7 +10,7 @@
  */
 import { readdirSync, readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { dirname, join } from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = join(root, "public/data/subway-delays.json");
@@ -84,6 +84,16 @@ class Dict {
   }
 }
 
+/**
+ * The export's Line column is free text ("YU", "YUS", "YU / BD", "BD/YU", ...).
+ * Fold it into the three current lines, incidents spanning several lines, and everything else.
+ */
+export function normalizeLine(raw) {
+  const parts = [...new Set(raw.toUpperCase().replace(/\s+/g, "").split("/").filter(Boolean).map((p) => (p === "YUS" ? "YU" : p)))];
+  if (parts.length > 1) return "MULTI";
+  return ["YU", "BD", "SHP"].includes(parts[0]) ? parts[0] : "OTHER";
+}
+
 function emptyCols() {
   return { day: [], minute: [], station: [], line: [], code: [], bound: [], delay: [], gap: [] };
 }
@@ -133,7 +143,7 @@ function fromCsvFiles() {
       cols.day.push(day);
       cols.minute.push(minute);
       cols.station.push(dicts.station.id(r[c.station].trim().toUpperCase() || "UNKNOWN"));
-      cols.line.push(dicts.line.id(r[c.line].trim().toUpperCase() || "UNKNOWN"));
+      cols.line.push(dicts.line.id(normalizeLine(r[c.line] ?? "")));
       cols.code.push(dicts.code.id(r[c.code].trim().toUpperCase() || "UNKNOWN"));
       cols.bound.push(dicts.bound.id(r[c.bound].trim().toUpperCase()));
       cols.delay.push(Math.max(0, Math.round(delay)));
@@ -205,13 +215,16 @@ function sample() {
   return { source: "sample", dicts, cols, codeDescriptions: Object.fromEntries(codes.map(([c, d]) => [c, d])) };
 }
 
-const built = process.argv.includes("--sample") ? sample() : fromCsvFiles();
-const out = {
-  meta: { ...META, source: built.source, generatedAt: new Date().toISOString(), rowCount: built.cols.day.length },
-  dict: Object.fromEntries(Object.entries(built.dicts).map(([k, d]) => [k, d.values])),
-  codeDescriptions: built.codeDescriptions,
-  cols: built.cols,
-};
-mkdirSync(dirname(OUT), { recursive: true });
-writeFileSync(OUT, JSON.stringify(out));
-console.log(`Wrote ${out.meta.rowCount} rows (${built.source}) to ${OUT}`);
+// Run only when invoked as a script, so tests can import the helpers.
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  const built = process.argv.includes("--sample") ? sample() : fromCsvFiles();
+  const out = {
+    meta: { ...META, source: built.source, generatedAt: new Date().toISOString(), rowCount: built.cols.day.length },
+    dict: Object.fromEntries(Object.entries(built.dicts).map(([k, d]) => [k, d.values])),
+    codeDescriptions: built.codeDescriptions,
+    cols: built.cols,
+  };
+  mkdirSync(dirname(OUT), { recursive: true });
+  writeFileSync(OUT, JSON.stringify(out));
+  console.log(`Wrote ${out.meta.rowCount} rows (${built.source}) to ${OUT}`);
+}

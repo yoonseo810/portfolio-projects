@@ -6,11 +6,12 @@ import { useRef } from "react";
 import { type Dataset, dayToIso, minuteToTime } from "@/lib/dataset";
 import type { SortDir, SortKey } from "@/lib/filters";
 import { fmt } from "./charts";
+import { LINE_NAMES } from "./FilterBar";
 
 const COLUMNS: { key: SortKey; label: string; className: string; numeric?: boolean }[] = [
   { key: "date", label: "Date and time", className: "w-[9.5rem]" },
   { key: "station", label: "Station", className: "min-w-0 flex-1" },
-  { key: "line", label: "Line", className: "w-14" },
+  { key: "line", label: "Line", className: "w-20" },
   { key: "code", label: "Code", className: "w-20" },
   { key: "delay", label: "Delay", className: "w-16", numeric: true },
   { key: "gap", label: "Gap", className: "w-14", numeric: true },
@@ -110,8 +111,8 @@ export function DelayTable({
                     <span role="cell" className={cn(COLUMNS[1].className, "truncate text-fg")}>
                       {dict.station[cols.station[i]]}
                     </span>
-                    <span role="cell" className={COLUMNS[2].className}>
-                      {dict.line[cols.line[i]]}
+                    <span role="cell" className={cn(COLUMNS[2].className, "truncate")} title={LINE_NAMES[dict.line[cols.line[i]]]?.long}>
+                      {LINE_NAMES[dict.line[cols.line[i]]]?.short ?? dict.line[cols.line[i]]}
                     </span>
                     <span role="cell" className={cn(COLUMNS[3].className, "truncate font-mono text-xs")} title={codeDescriptions[code]}>
                       {code}

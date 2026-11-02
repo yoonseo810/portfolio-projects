@@ -9,6 +9,16 @@ import { activeFilterCount, type Filters } from "@/lib/filters";
 
 const MIN_DELAYS = [0, 5, 10, 30];
 
+/** Display names for the normalized Line values (see scripts/build-data.mjs). */
+export const LINE_NAMES: Record<string, { short: string; long: string }> = {
+  YU: { short: "Line 1", long: "Line 1 Yonge-University" },
+  BD: { short: "Line 2", long: "Line 2 Bloor-Danforth" },
+  SHP: { short: "Line 4", long: "Line 4 Sheppard" },
+  MULTI: { short: "Multiple", long: "Incidents affecting more than one line" },
+  OTHER: { short: "Other", long: "Other or unrecorded line" },
+};
+const LINE_ORDER = Object.keys(LINE_NAMES);
+
 /** One row of filters above everything they scope. Every change is written to the URL. */
 export function FilterBar({ dataset, filters, onChange }: { dataset: Dataset; filters: Filters; onChange: (patch: Partial<Filters>) => void }) {
   const ids = { from: useId(), to: useId(), station: useId(), code: useId(), min: useId(), list: useId() };
@@ -74,10 +84,9 @@ export function FilterBar({ dataset, filters, onChange }: { dataset: Dataset; fi
 
         <fieldset>
           <legend className="mb-1.5 text-xs font-medium text-muted">Line</legend>
-          <div className="flex gap-1">
-            {dataset.dict.line
-              .filter((l) => l.length <= 4)
-              .sort()
+          <div className="flex flex-wrap gap-1">
+            {[...dataset.dict.line]
+              .sort((a, b) => (LINE_ORDER.indexOf(a) + 1 || 99) - (LINE_ORDER.indexOf(b) + 1 || 99))
               .map((l) => {
                 const on = filters.lines.includes(l);
                 return (
@@ -86,12 +95,13 @@ export function FilterBar({ dataset, filters, onChange }: { dataset: Dataset; fi
                     type="button"
                     aria-pressed={on}
                     onClick={() => onChange({ lines: on ? filters.lines.filter((x) => x !== l) : [...filters.lines, l] })}
+                    title={LINE_NAMES[l]?.long}
                     className={cn(
-                      "h-9 rounded-lg border px-3 text-sm font-medium transition-colors",
+                      "h-9 rounded-lg border px-3 text-sm font-medium whitespace-nowrap transition-colors",
                       on ? "border-accent bg-accent/10 text-fg" : "border-line-strong text-muted hover:text-fg",
                     )}
                   >
-                    {l}
+                    {LINE_NAMES[l]?.short ?? l}
                   </button>
                 );
               })}
