@@ -5,6 +5,13 @@
       "dependsOn": [
         "^build"
       ],
+      "env": [
+        "COPILOT_URL",
+        "BOARD_URL",
+        "EXPLORER_URL",
+        "GEMINI_MODEL",
+        "DAILY_ANALYSIS_LIMIT"
+      ],
       "outputs": [
         ".next/**",
         "!.next/cache/**",
