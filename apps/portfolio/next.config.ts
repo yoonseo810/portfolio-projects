@@ -9,6 +9,8 @@ const dev = process.env.NODE_ENV === "development";
 const ZONES = [
   { path: "/copilot", origin: process.env.COPILOT_URL ?? (dev ? "http://localhost:3001" : "https://portfolio-projects-xdrt.vercel.app") },
   { path: "/board", origin: process.env.BOARD_URL ?? (dev ? "http://localhost:3002" : "https://portfolio-projects-j5mr.vercel.app") },
+  // Set EXPLORER_URL in the portfolio's Vercel project once the explorer has its own deployment.
+  ...(process.env.EXPLORER_URL || dev ? [{ path: "/explorer", origin: process.env.EXPLORER_URL ?? "http://localhost:3003" }] : []),
 ];
 
 const nextConfig: NextConfig = {
