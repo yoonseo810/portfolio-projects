@@ -20,7 +20,7 @@ export const projects: Project[] = [
       "Paste a job posting to get a fit score, ranked gaps and tailored resume bullets. Gemini judges each requirement with quoted evidence; the score is computed in code so it stays explainable.",
     stack: ["Next.js 16", "TypeScript", "Supabase", "PostgreSQL", "Drizzle", "Vercel AI SDK", "Gemini"],
     status: "live",
-    demoUrl: "https://portfolio-projects-xdrt.vercel.app",
+    demoUrl: "/copilot",
     codeUrl: `${repo}/job-copilot`,
   },
   {
@@ -30,7 +30,7 @@ export const projects: Project[] = [
       "Shareable kanban board with live cursors, presence and accessible drag and drop. Optimistic updates sync over Supabase Realtime, and a tested last-write-wins reducer keeps everyone's board consistent.",
     stack: ["Next.js 16", "TypeScript", "Supabase Realtime", "PostgreSQL", "Drizzle", "dnd-kit"],
     status: "live",
-    demoUrl: "https://portfolio-projects-j5mr.vercel.app",
+    demoUrl: "/board",
     codeUrl: `${repo}/realtime-board`,
   },
   {

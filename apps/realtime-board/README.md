@@ -2,7 +2,7 @@
 
 A shareable kanban board with live cursors, presence, and drag and drop. Create a board, send the invite link, and everyone on it sees cards and cursors move in real time. Guests join anonymously, with no sign-up.
 
-**Live demo:** https://portfolio-projects-j5mr.vercel.app (no sign-up)
+**Live demo:** https://portfolio-projects-wine.vercel.app/board (no sign-up)
 
 ## How it works
 

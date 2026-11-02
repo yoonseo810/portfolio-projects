@@ -5,13 +5,14 @@ pnpm + Turborepo monorepo for Michael Seo's portfolio. Every app deploys to its 
 | Path | What | Live |
 | --- | --- | --- |
 | `apps/portfolio` | Portfolio site (Next.js 16) | https://portfolio-projects-wine.vercel.app |
-| `apps/job-copilot` | AI job-search copilot (Next.js 16, Supabase, Drizzle, Gemini) | https://portfolio-projects-xdrt.vercel.app |
-| `apps/realtime-board` | Realtime kanban (Next.js 16, Supabase Realtime, dnd-kit) | https://portfolio-projects-j5mr.vercel.app |
+| `apps/job-copilot` | AI job-search copilot (Next.js 16, Supabase, Drizzle, Gemini) | https://portfolio-projects-wine.vercel.app/copilot (zone; deployment: portfolio-projects-xdrt) |
+| `apps/realtime-board` | Realtime kanban (Next.js 16, Supabase Realtime, dnd-kit) | https://portfolio-projects-wine.vercel.app/board (zone; deployment: portfolio-projects-j5mr) |
 | `apps/design-system` | Storybook 10 for `@repo/ui` | https://portfolio-projects-gtds.vercel.app |
 | `packages/ui` | Shared design system (tokens + React components) | — |
 
 ## Ground rules
 
+- **Copilot and board are multi-zones** under the portfolio domain (`basePath` `/copilot`, `/board`; rewrites in `apps/portfolio/next.config.ts`). Links between zones use `<a>`, not `<Link>`. `redirect()` in Route Handlers does not add `basePath`. Auth (guest + optional GitHub/email sign-in) lives in each zone's `src/app/auth/`.
 - **Next.js 16 differs from older versions.** Read `apps/<app>/AGENTS.md` and `node_modules/next/dist/docs/` before writing Next code.
 - **Michael holds every secret.** Never ask for keys. He sets Vercel env vars and runs SQL in the Supabase SQL editor himself.
 - **Commit as** `yoonseo810 <85579849+yoonseo810@users.noreply.github.com>`. Vercel blocks previews for other authors.
