@@ -1,0 +1,12 @@
+import type { PortalApp } from "./account-menu";
+
+/**
+ * Every app under the portfolio umbrella. Copilot and Board are zones served from the portfolio
+ * domain, so they share one sign-in. Storybook is public documentation and needs no account.
+ */
+export const PORTAL_APPS: PortalApp[] = [
+  { label: "Portfolio", href: "/", description: "Projects, experience and contact" },
+  { label: "Job-Search Copilot", href: "/copilot", description: "Score your fit for a job posting" },
+  { label: "Realtime Board", href: "/board", description: "Shareable kanban with live cursors" },
+  { label: "Design System", href: "https://portfolio-projects-gtds.vercel.app", description: "Storybook for the shared UI" },
+];
