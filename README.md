@@ -9,7 +9,7 @@ Monorepo for my portfolio site and portfolio projects.
 | [`apps/portfolio`](apps/portfolio) | Personal portfolio site | [Live](https://portfolio-projects-wine.vercel.app) |
 | [`apps/job-copilot`](apps/job-copilot) | AI job-search copilot: parses postings, scores fit, drafts tailored bullets | [Live](https://portfolio-projects-wine.vercel.app/copilot) |
 | [`apps/realtime-board`](apps/realtime-board) | Real-time collaborative kanban board with presence, live cursors and drag and drop | [Live](https://portfolio-projects-wine.vercel.app/board) |
-| [`apps/data-explorer`](apps/data-explorer) | TTC subway delay explorer: Web Worker queries, virtualized table, URL-synced filters, SVG charts | In progress (`/explorer`) |
+| [`apps/data-explorer`](apps/data-explorer) | TTC subway delay explorer: Web Worker queries, virtualized table, URL-synced filters, SVG charts | [Live](https://portfolio-projects-wine.vercel.app/explorer) |
 | [`apps/design-system`](apps/design-system) | Storybook docs for `packages/ui`; every story is a browser test with axe in both themes | [Live](https://portfolio-projects-gtds.vercel.app) |
 | [`packages/ui`](packages/ui) | Shared design system (tokens, components) used by every app | — |
 
