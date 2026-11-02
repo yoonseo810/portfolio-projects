@@ -7,7 +7,7 @@ description: Scaffold a new Next.js app in the monorepo wired to @repo/ui, CI an
 
 1. **Scaffold** `apps/<name>` with Next.js 16, TypeScript, Tailwind 4 and ESLint, matching `apps/portfolio`:
    - `package.json` has the scripts `dev`, `build`, `lint`, `typecheck` (`next typegen && tsc --noEmit`) and `test` (`vitest run`), plus `"@repo/ui": "workspace:*"`.
-   - `next.config.ts` sets `transpilePackages: ["@repo/ui"]`.
+   - `next.config.ts` sets `transpilePackages: ["@repo/ui"]`. If the app needs sign-in or shares data with the other apps, make it a zone: copy `apps/job-copilot/next.config.ts` (basePath, `allowedOrigins`, legacy redirects), add its path to `ZONES` in `apps/portfolio/next.config.ts` and to `PORTAL_APPS` in `packages/ui/src/portal.tsx`, and copy `src/app/auth/`, `src/lib/site.ts`, `src/lib/account.ts` and `src/components/HeaderAccount.tsx`.
    - `globals.css` contains `@import "tailwindcss"; @import "@repo/ui/styles.css";`.
    - The layout inlines `themeScript` in `<head>` and uses `SiteHeader`, with a footer linking back to the portfolio.
    - Keep the generated `AGENTS.md`.
@@ -25,4 +25,4 @@ description: Scaffold a new Next.js app in the monorepo wired to @repo/ui, CI an
    - Run any SQL (see the `db-migration` skill).
 5. **Go live**
    - Add a portfolio card in `apps/portfolio/src/content/projects.ts` with `status: "in-progress"`.
-   - Once Michael sends the URL, switch it to `"live"` with `demoUrl`, and update the README and CLAUDE.md links.
+   - Once Michael sends the URL, switch it to `"live"` with `demoUrl` (the zone path, e.g. `/copilot`, for a zone), and update the README and CLAUDE.md links.
