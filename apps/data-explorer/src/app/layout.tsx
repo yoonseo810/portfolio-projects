@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Link from "next/link";
 import { SiteHeader } from "@repo/ui/site-header";
 import { themeScript } from "@repo/ui/theme";
 import { BASE_PATH } from "@/lib/site";
@@ -21,6 +22,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       </head>
       <body className="flex min-h-full flex-col">
         <SiteHeader brand="TTC Delay Explorer" href={BASE_PATH} maxWidth="max-w-6xl">
+          <Link href="/case-study" className="rounded-md px-3 py-1.5 text-sm text-muted transition-colors hover:bg-surface-2 hover:text-fg">
+            Case study
+          </Link>
           {/* The portfolio is another zone on this domain, so these are full page loads, not <Link>. */}
           {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
           <a href="/" className="rounded-md px-3 py-1.5 text-sm text-muted transition-colors hover:bg-surface-2 hover:text-fg">

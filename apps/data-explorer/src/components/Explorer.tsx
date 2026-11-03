@@ -6,9 +6,11 @@ import { Card } from "@repo/ui/card";
 import { cn } from "@repo/ui/cn";
 import { Skeleton } from "@repo/ui/skeleton";
 import { Spinner } from "@repo/ui/spinner";
+import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { type ReactNode, useCallback, useTransition } from "react";
 import { type Filters, parseFilters, type SortKey, serializeFilters } from "@/lib/filters";
+import { PERF_MODES, parsePerfMode } from "@/lib/perf-mode";
 import { useExplorer } from "@/lib/use-explorer";
 import { fmt, HourChart, MonthChart, RankedBars } from "./charts";
 import { DelayTable } from "./DelayTable";
@@ -39,15 +41,20 @@ export function Explorer() {
   const pathname = usePathname();
   const [, startTransition] = useTransition();
   const filters = parseFilters(new URLSearchParams(params.toString()));
-  const { dataset, result, stale, error } = useExplorer(filters);
+  const perfMode = parsePerfMode(params.get("perf"));
+  const perf = PERF_MODES[perfMode];
+  const { dataset, result, stale, resultKey, error } = useExplorer(filters, perf);
 
   const paramsString = params.toString();
   const update = useCallback(
     (patch: Partial<Filters>) => {
-      const next = serializeFilters({ ...parseFilters(new URLSearchParams(paramsString)), ...patch });
-      startTransition(() => router.replace(next ? `${pathname}?${next}` : pathname, { scroll: false }));
+      const next = new URLSearchParams(serializeFilters({ ...parseFilters(new URLSearchParams(paramsString)), ...patch }));
+      // Keep a benchmark mode across filter changes, so a measured session stays in one mode.
+      if (perfMode !== "shipped") next.set("perf", perfMode);
+      const qs = next.toString();
+      startTransition(() => router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false }));
     },
-    [paramsString, pathname, router],
+    [paramsString, pathname, router, perfMode],
   );
 
   const onSort = (key: SortKey) =>
@@ -81,6 +88,20 @@ export function Explorer() {
   const { summary } = result;
   return (
     <div className="space-y-4">
+      {perfMode !== "shipped" && (
+        <Alert tone="warning" title={`Benchmark mode: ${perf.label}`}>
+          Some of the explorer&apos;s optimizations are turned off so their effect can be measured, so expect this view to be slower.{" "}
+          <Link href="/" className="font-medium underline underline-offset-4">
+            Turn them back on
+          </Link>{" "}
+          or{" "}
+          <Link href="/case-study" className="font-medium underline underline-offset-4">
+            read the case study
+          </Link>
+          .
+        </Alert>
+      )}
+
       {dataset.meta.source === "sample" && (
         <Alert tone="warning" title="Showing synthetic sample data">
           The layout, filters and charts are real, but these incidents are generated. The TTC export replaces them on the next deploy.
@@ -90,7 +111,7 @@ export function Explorer() {
       <FilterBar dataset={dataset} filters={filters} onChange={update} />
 
       {/* Results keep their last render, dimmed, while a newer query runs: no flash, no layout jump. */}
-      <div className={cn("space-y-4 transition-opacity", stale && "opacity-60")} aria-busy={stale}>
+      <div className={cn("space-y-4 transition-opacity", stale && "opacity-60")} aria-busy={stale} data-result-key={resultKey ?? ""}>
         <p role="status" className="text-sm text-muted">
           <span className="font-medium text-fg">{fmt.format(summary.incidents)}</span> of {fmt.format(dataset.size)} incidents match.
           <span className="ml-2 inline-block">
@@ -130,7 +151,7 @@ export function Explorer() {
         </div>
 
         <Panel title="Incidents">
-          <DelayTable dataset={dataset} rows={result.rows} sort={filters.sort} dir={filters.dir} onSort={onSort} />
+          <DelayTable dataset={dataset} rows={result.rows} sort={filters.sort} dir={filters.dir} onSort={onSort} virtual={perf.table === "virtual"} />
         </Panel>
       </div>
 

@@ -29,18 +29,21 @@ export function DelayTable({
   sort,
   dir,
   onSort,
+  virtual = true,
 }: {
   dataset: Dataset;
   rows: Int32Array;
   sort: SortKey;
   dir: SortDir;
   onSort: (key: SortKey) => void;
+  /** false renders every row (the case study's baseline). */
+  virtual?: boolean;
 }) {
   const scrollRef = useRef<HTMLDivElement>(null);
   // TanStack Virtual returns functions that the React Compiler can't memoize; that's expected here.
   // eslint-disable-next-line react-hooks/incompatible-library
   const virtualizer = useVirtualizer({
-    count: rows.length,
+    count: virtual ? rows.length : 0,
     getScrollElement: () => scrollRef.current,
     estimateSize: () => ROW_HEIGHT,
     overscan: 10,
@@ -93,8 +96,8 @@ export function DelayTable({
               </p>
             </div>
           ) : (
-            <div role="presentation" style={{ height: virtualizer.getTotalSize(), position: "relative" }}>
-              {virtualizer.getVirtualItems().map((v) => {
+            <div role="presentation" style={virtual ? { height: virtualizer.getTotalSize(), position: "relative" } : undefined}>
+              {(virtual ? virtualizer.getVirtualItems() : Array.from(rows, (_, index) => ({ index, key: index, start: 0 }))).map((v) => {
                 const i = rows[v.index];
                 const code = dict.code[cols.code[i]];
                 return (
@@ -102,8 +105,8 @@ export function DelayTable({
                     key={v.key}
                     role="row"
                     aria-rowindex={v.index + 2}
-                    className="absolute inset-x-0 flex items-center gap-3 border-b border-line/60 px-3 odd:bg-surface-2/30"
-                    style={{ height: ROW_HEIGHT, transform: `translateY(${v.start}px)` }}
+                    className={cn("flex items-center gap-3 border-b border-line/60 px-3 odd:bg-surface-2/30", virtual && "absolute inset-x-0")}
+                    style={virtual ? { height: ROW_HEIGHT, transform: `translateY(${v.start}px)` } : { height: ROW_HEIGHT }}
                   >
                     <span role="cell" className={cn(COLUMNS[0].className, "tabular-nums text-muted")}>
                       {dayToIso(cols.day[i])} {minuteToTime(cols.minute[i])}

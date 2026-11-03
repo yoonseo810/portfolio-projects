@@ -4,6 +4,8 @@ Filter and chart every reported TTC subway delay by date, line, station, cause a
 
 **Live:** https://portfolio-projects-wine.vercel.app/explorer (a zone under the portfolio domain)
 
+**Performance case study:** https://portfolio-projects-wine.vercel.app/explorer/case-study
+
 ## How it works
 
 - **Data.** `scripts/build-data.mjs` turns the City of Toronto's CSV exports into a compact column format: repeated strings go into dictionaries, and each field is its own array. That's `public/data/subway-delays.json`, about 1.3 MB raw or 280 KB gzipped for ~54k rows. It ships as a static file, cached for a day.
@@ -46,4 +48,12 @@ pnpm --filter data-explorer data:sample
 ```bash
 pnpm --filter data-explorer dev   # http://localhost:3003/explorer, or via the portfolio at http://localhost:3000/explorer
 pnpm --filter data-explorer test
+```
+
+## Performance case study
+
+`/case-study` compares four cumulative versions of the app (baseline, + virtualized table, + columnar query, + Web Worker). Open any version with `?perf=baseline|virtual|columnar|shipped`. To re-measure, run a production build on port 3003 and then:
+
+```bash
+pnpm --filter data-explorer perf -- --cpu 1   # and --cpu 4; writes src/content/perf-results.json
 ```
