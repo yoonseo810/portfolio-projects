@@ -39,7 +39,8 @@ export const projects: Project[] = [
     tagline:
       "Explore Toronto subway delay incidents by date, line, station, cause and hour. Queries run in a Web Worker over typed arrays, the table virtualizes every row, and each view lives in the URL so it can be shared.",
     stack: ["Next.js 16", "TypeScript", "Web Workers", "TanStack Virtual", "SVG charts", "Vitest"],
-    status: "in-progress",
+    status: "live",
+    demoUrl: "/explorer",
     codeUrl: `${repo}/data-explorer`,
   },
   {
