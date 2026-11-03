@@ -8,7 +8,7 @@ pnpm + Turborepo monorepo for Michael Seo's portfolio. Every app deploys to its 
 | `apps/job-copilot` | AI job-search copilot (Next.js 16, Supabase, Drizzle, Gemini) | https://portfolio-projects-wine.vercel.app/copilot (zone; deployment: portfolio-projects-xdrt) |
 | `apps/realtime-board` | Realtime kanban (Next.js 16, Supabase Realtime, dnd-kit) | https://portfolio-projects-wine.vercel.app/board (zone; deployment: portfolio-projects-j5mr) |
 | `apps/data-explorer` | TTC subway delay explorer (Next.js 16, Web Worker, TanStack Virtual); no database | https://portfolio-projects-wine.vercel.app/explorer (zone; Vercel project `data-explorer`, wired via `EXPLORER_URL`) |
-| `apps/kiosk` | Airline check-in kiosk (Next.js 16, touch-first, EN/FR, offline-first planned); no database yet | https://portfolio-projects-wine.vercel.app/kiosk (zone; wired via `KIOSK_URL`, not deployed yet) |
+| `apps/kiosk` | Offline-first airline check-in kiosk (Next.js 16, service worker, IndexedDB outbox, Supabase, Drizzle; tests on PGlite) | https://portfolio-projects-wine.vercel.app/kiosk (zone; wired via `KIOSK_URL`, not deployed yet) |
 | `apps/design-system` | Storybook 10 for `@repo/ui` | https://portfolio-projects-gtds.vercel.app |
 | `packages/ui` | Shared design system (tokens + React components) | — |
 

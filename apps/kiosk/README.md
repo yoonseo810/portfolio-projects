@@ -21,6 +21,20 @@ Every screen works in English and French, and the language can change at any ste
 - The seat map is an ARIA grid with one tab stop. Arrow keys, Home and End move between seats, and each seat's label says its type and whether it's free, taken or held for someone in your group. Taken seats show an ×, so colour is never the only signal.
 - axe passes on every screen, in both themes, at desktop and phone widths.
 
+## Offline-first
+
+A kiosk can't stop working when the airport Wi-Fi drops, so nothing on the check-in path needs the network.
+
+- **The app is cached.** A service worker (`public/sw.js`) serves the page from cache when the network is down, and keeps hashed scripts cache-first. Flights and bookings ship in the bundle, so lookups work offline too.
+- **Check-ins go to an outbox first.** Confirming writes the check-in to IndexedDB (`src/lib/outbox.ts`) and prints the boarding passes straight away. The outbox uploads in the background, oldest first, retrying with backoff (1 s, 2 s, 4 s … up to 30 s). It survives a reload or a crash.
+- **Uploads are idempotent.** Each check-in carries an id made on the kiosk. The server stores it once, and any retry of the same id gets the stored answer back (`src/server/checkins.ts`), so a request that times out after the server saved it can't double-book.
+- **The database settles seat clashes.** Two kiosks that are both offline can give the same seat away. Primary keys on (fleet, flight, seat) and (fleet, booking, traveller) decide it: the first upload keeps the seat, and the later one is flagged in the staff panel for an agent.
+- **Online kiosks share seats.** Every 15 s, an online kiosk pulls the seats other kiosks gave out and greys them out, so clashes only happen when kiosks are offline.
+
+**Try it:** open the kiosk in two tabs (two kiosks). Turn on **Simulate offline** in both staff panels, check in the Tremblay family in one tab and give Priya Patel one of their seats in the other, then turn both back online.
+
+A "fleet" is one browser, so visitors never see each other's check-ins. Without `DATABASE_URL`, the outbox keeps check-ins on the device and the staff panel says the sync server isn't set up.
+
 ## Code
 
 - `src/lib/checkin.ts`: the whole flow as a pure reducer (who can sit where, when you can continue, what a reset clears).
@@ -28,6 +42,8 @@ Every screen works in English and French, and the language can change at any ste
 - `src/lib/flights.ts`: sample flights and bookings, and booking lookup with the 45-minute check-in cutoff.
 - `src/lib/boarding-pass.ts`: the 60-character BCBP barcode text.
 - `src/lib/i18n.ts`: English and French strings. A test checks that both have the same keys.
+- `src/lib/outbox.ts` and `src/components/useKioskSync.ts`: the IndexedDB outbox and the upload loop.
+- `src/server/checkins.ts`: idempotent saves and conflict detection. Its tests run the real migration on PGlite, an in-process Postgres.
 
 ## Run it
 
@@ -35,7 +51,3 @@ Every screen works in English and French, and the language can change at any ste
 pnpm --filter kiosk dev   # http://localhost:3004/kiosk, or via the portfolio at http://localhost:3000/kiosk
 pnpm --filter kiosk test
 ```
-
-## Next
-
-Offline-first: a service worker caches the app and the day's flights, check-ins queue in IndexedDB and sync when the network returns, and the server resolves two kiosks selling the same seat.

@@ -3,10 +3,10 @@
 import { useEffect, useMemo, useReducer, useRef, useState } from "react";
 import { Button } from "@repo/ui/button";
 import { cn } from "@repo/ui/cn";
-import { canAdvance, type CheckinRecord, initialState, makeRecord, PROGRESS, reducer } from "@/lib/checkin";
-import { AIRLINE, type CheckinLedger, ledgerKey, lookupBooking } from "@/lib/flights";
+import { canAdvance, initialState, makeRecord, PROGRESS, reducer } from "@/lib/checkin";
+import { fleetLedger, takenSeats } from "@/lib/fleet";
+import { AIRLINE, lookupBooking } from "@/lib/flights";
 import { type Locale, LOCALES } from "@/lib/i18n";
-import { soldSeats } from "@/lib/seats";
 import { Bags } from "./Bags";
 import { BoardingPasses } from "./BoardingPasses";
 import { FindBooking } from "./FindBooking";
@@ -14,40 +14,40 @@ import { I18nProvider, useI18n } from "./I18n";
 import { IdleGuard } from "./IdleGuard";
 import { Review } from "./Review";
 import { SeatMap } from "./SeatMap";
+import { StaffPanel } from "./StaffPanel";
 import { Travellers } from "./Travellers";
+import { type KioskSync, useKioskSync } from "./useKioskSync";
 import { Welcome } from "./parts";
 
 export const BIG = "h-14 px-8 text-lg";
 
-export function Kiosk() {
+/** The kiosk screen plus the staff panel that shows its outbox and connection. */
+export function KioskStation() {
   const [locale, setLocale] = useState<Locale>("en");
+  const sync = useKioskSync();
   return (
-    <I18nProvider locale={locale}>
-      <KioskScreen locale={locale} setLocale={setLocale} />
-    </I18nProvider>
+    <>
+      <I18nProvider locale={locale}>
+        <KioskScreen locale={locale} setLocale={setLocale} sync={sync} />
+      </I18nProvider>
+      <StaffPanel sync={sync} />
+    </>
   );
 }
 
-function KioskScreen({ locale, setLocale }: { locale: Locale; setLocale: (l: Locale) => void }) {
+function KioskScreen({ locale, setLocale, sync }: { locale: Locale; setLocale: (l: Locale) => void; sync: KioskSync }) {
   const { t } = useI18n();
   const [s, dispatch] = useReducer(reducer, initialState);
-  const [checkins, setCheckins] = useState<CheckinRecord[]>([]);
+  const checkins = useMemo(() => sync.entries.map((e) => e.record).sort((a, b) => a.createdAt - b.createdAt), [sync.entries]);
+  const waiting = sync.entries.filter((e) => e.status === "pending").length;
   /** Sample departure times count from when the kiosk was first used, so they don't drift. */
   const anchor = useRef<number | null>(null);
   const root = useRef<HTMLDivElement>(null);
   const firstRender = useRef(true);
 
   const flightId = s.booking?.flight.id;
-  const taken = useMemo(() => {
-    const set = soldSeats(flightId ?? "");
-    for (const c of checkins) if (c.flightId === flightId) c.passengers.forEach((p) => set.add(p.seat));
-    return set;
-  }, [flightId, checkins]);
-
-  const ledger = useMemo<CheckinLedger>(
-    () => Object.fromEntries(checkins.flatMap((c) => c.passengers.map((p) => [ledgerKey(c.code, p.id), p.seat]))),
-    [checkins],
-  );
+  const taken = useMemo(() => takenSeats(flightId ?? "", checkins, sync.remote), [flightId, checkins, sync.remote]);
+  const ledger = useMemo(() => fleetLedger(checkins, sync.remote), [checkins, sync.remote]);
 
   // Each screen starts with its heading focused, so screen readers announce where they are.
   useEffect(() => {
@@ -67,16 +67,14 @@ function KioskScreen({ locale, setLocale }: { locale: Locale; setLocale: (l: Loc
     const now = Date.now();
     anchor.current ??= now;
     const result = lookupBooking(code, last, { now, anchor: anchor.current, ledger });
-    const sold = result.ok ? soldSeats(result.booking.flight.id) : new Set<string>();
-    if (result.ok) {
-      for (const c of checkins) if (c.flightId === result.booking.flight.id) c.passengers.forEach((p) => sold.add(p.seat));
-    }
+    const sold = result.ok ? takenSeats(result.booking.flight.id, checkins, sync.remote) : new Set<string>();
     dispatch({ type: "lookup", result, taken: sold });
   };
 
   const confirm = () => {
     const record = makeRecord(s, crypto.randomUUID(), Date.now());
-    setCheckins((list) => [...list, record]);
+    // Saved to the device first; the outbox uploads it now or whenever the network is back.
+    void sync.enqueue(record);
     dispatch({ type: "confirmed", record });
   };
 
@@ -97,7 +95,18 @@ function KioskScreen({ locale, setLocale }: { locale: Locale; setLocale: (l: Loc
             <p className="text-xs text-muted">{t.brandTag}</p>
           </div>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
+          <p role="status" className={cn("text-sm", sync.online && !waiting && "sr-only")}>
+            {!sync.online ? (
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-warning/40 bg-warning/10 px-3 py-1 font-medium text-warning">
+                <span aria-hidden className="h-2 w-2 rounded-full bg-current" />
+                {t.offline}
+                {waiting > 0 && ` · ${t.waiting(waiting)}`}
+              </span>
+            ) : waiting > 0 ? (
+              <span className="text-muted">{t.waiting(waiting)}</span>
+            ) : null}
+          </p>
           <div role="group" aria-label={t.chooseLanguage} className="flex rounded-xl border border-line p-1">
             {LOCALES.map((l) => (
               <button
@@ -140,7 +149,7 @@ function KioskScreen({ locale, setLocale }: { locale: Locale; setLocale: (l: Loc
       )}
 
       <div className="flex flex-1 flex-col px-5 py-6 sm:px-8 sm:py-8">
-        {s.step === "welcome" && <Welcome onStart={() => dispatch({ type: "start" })} />}
+        {s.step === "welcome" && <Welcome offline={!sync.online} onStart={() => dispatch({ type: "start" })} />}
         {s.step === "find" && <FindBooking error={s.lookupError} onFind={find} />}
         {s.step === "passengers" && <Travellers state={s} dispatch={dispatch} />}
         {s.step === "seats" && <SeatMap state={s} dispatch={dispatch} taken={taken} />}

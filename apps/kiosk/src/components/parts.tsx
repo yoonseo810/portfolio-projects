@@ -17,7 +17,7 @@ export function StepHeading({ title, body }: { title: string; body?: string }) {
   );
 }
 
-export function Welcome({ onStart }: { onStart: () => void }) {
+export function Welcome({ onStart, offline }: { onStart: () => void; offline: boolean }) {
   const { t } = useI18n();
   return (
     <div className="flex flex-1 flex-col items-center justify-center gap-6 py-8 text-center">
@@ -28,6 +28,7 @@ export function Welcome({ onStart }: { onStart: () => void }) {
       <Button className="h-16 px-10 text-xl" onClick={onStart}>
         {t.start}
       </Button>
+      {offline && <p className="max-w-md text-base text-muted">{t.offlineNote}</p>}
     </div>
   );
 }
