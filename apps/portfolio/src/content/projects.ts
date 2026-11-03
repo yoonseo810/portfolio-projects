@@ -44,6 +44,15 @@ export const projects: Project[] = [
     codeUrl: `${repo}/data-explorer`,
   },
   {
+    slug: "kiosk",
+    name: "Kiosk Check-in",
+    tagline:
+      "A touch-first airline check-in kiosk in English and French: find a booking, pick seats on an accessible seat map, add bags and get QR boarding passes. Built to keep working offline and sync when the network returns.",
+    stack: ["Next.js 16", "TypeScript", "React", "Service Worker", "IndexedDB", "Vitest"],
+    status: "in-progress",
+    codeUrl: `${repo}/kiosk`,
+  },
+  {
     slug: "design-system",
     name: "Design System",
     tagline:

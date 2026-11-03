@@ -9,6 +9,7 @@
         "COPILOT_URL",
         "BOARD_URL",
         "EXPLORER_URL",
+        "KIOSK_URL",
         "GEMINI_MODEL",
         "DAILY_ANALYSIS_LIMIT"
       ],
