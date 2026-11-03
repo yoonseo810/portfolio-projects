@@ -27,6 +27,8 @@ const ZONES = [
   { path: "/board", origin: env("BOARD_URL") ?? (dev ? "http://localhost:3002" : "https://portfolio-projects-j5mr.vercel.app") },
   // Set EXPLORER_URL in the portfolio's Vercel project once the explorer has its own deployment.
   ...(env("EXPLORER_URL") || dev ? [{ path: "/explorer", origin: env("EXPLORER_URL") ?? "http://localhost:3003" }] : []),
+  // Set KIOSK_URL in the portfolio's Vercel project once the kiosk has its own deployment.
+  ...(env("KIOSK_URL") || dev ? [{ path: "/kiosk", origin: env("KIOSK_URL") ?? "http://localhost:3004" }] : []),
 ];
 
 const nextConfig: NextConfig = {
