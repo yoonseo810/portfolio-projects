@@ -10,7 +10,8 @@
     "typecheck": "next typegen && tsc --noEmit",
     "test": "vitest run",
     "data": "node scripts/build-data.mjs",
-    "data:sample": "node scripts/build-data.mjs --sample"
+    "data:sample": "node scripts/build-data.mjs --sample",
+    "perf": "node perf/measure.mjs"
   },
   "dependencies": {
     "@repo/ui": "workspace:*",
@@ -26,6 +27,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.4.3",
+    "playwright": "1.63.0",
     "tailwindcss": "^4",
     "typescript": "^5",
     "vite-tsconfig-paths": "^6.1.1",

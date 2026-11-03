@@ -1,0 +1,291 @@
+{
+  "measuredAt": "2026-11-03",
+  "environment": {
+    "browser": "Chromium 153.0.8010.12 (headless)",
+    "runs": 3,
+    "machine": "4 × Intel(R) Xeon(R) Processor @ 2.80GHz",
+    "statistic": "median"
+  },
+  "byCpu": {
+    "1": {
+      "baseline": {
+        "load": {
+          "firstResultsMs": 15815,
+          "blockingMs": 15955,
+          "longestTaskMs": 12921,
+          "domNodes": 432329,
+          "heapMb": 137.3
+        },
+        "interactions": [
+          {
+            "name": "Filter to Line 2",
+            "ms": 6478,
+            "queryMs": 35,
+            "blockingMs": 5845,
+            "longestTaskMs": 2260
+          },
+          {
+            "name": "Pick 08:00 on the hour chart",
+            "ms": 2394,
+            "queryMs": 9,
+            "blockingMs": 2054,
+            "longestTaskMs": 1103
+          },
+          {
+            "name": "Sort by delay",
+            "ms": 261,
+            "queryMs": 18,
+            "blockingMs": 122,
+            "longestTaskMs": 129
+          }
+        ]
+      },
+      "virtual": {
+        "load": {
+          "firstResultsMs": 599,
+          "blockingMs": 132,
+          "longestTaskMs": 114,
+          "domNodes": 1301,
+          "heapMb": 16.1
+        },
+        "interactions": [
+          {
+            "name": "Filter to Line 2",
+            "ms": 148,
+            "queryMs": 78,
+            "blockingMs": 29,
+            "longestTaskMs": 79
+          },
+          {
+            "name": "Pick 08:00 on the hour chart",
+            "ms": 93,
+            "queryMs": 13,
+            "blockingMs": 0,
+            "longestTaskMs": 0
+          },
+          {
+            "name": "Sort by delay",
+            "ms": 59,
+            "queryMs": 9,
+            "blockingMs": 0,
+            "longestTaskMs": 0
+          }
+        ]
+      },
+      "columnar": {
+        "load": {
+          "firstResultsMs": 423,
+          "blockingMs": 18,
+          "longestTaskMs": 65,
+          "domNodes": 1301,
+          "heapMb": 6.4
+        },
+        "interactions": [
+          {
+            "name": "Filter to Line 2",
+            "ms": 124,
+            "queryMs": 37,
+            "blockingMs": 0,
+            "longestTaskMs": 0
+          },
+          {
+            "name": "Pick 08:00 on the hour chart",
+            "ms": 88,
+            "queryMs": 8,
+            "blockingMs": 0,
+            "longestTaskMs": 0
+          },
+          {
+            "name": "Sort by delay",
+            "ms": 66,
+            "queryMs": 5,
+            "blockingMs": 0,
+            "longestTaskMs": 0
+          }
+        ]
+      },
+      "shipped": {
+        "load": {
+          "firstResultsMs": 450,
+          "blockingMs": 24,
+          "longestTaskMs": 64,
+          "domNodes": 1293,
+          "heapMb": 4.7
+        },
+        "interactions": [
+          {
+            "name": "Filter to Line 2",
+            "ms": 131,
+            "queryMs": 60,
+            "blockingMs": 0,
+            "longestTaskMs": 0
+          },
+          {
+            "name": "Pick 08:00 on the hour chart",
+            "ms": 107,
+            "queryMs": 24,
+            "blockingMs": 0,
+            "longestTaskMs": 0
+          },
+          {
+            "name": "Sort by delay",
+            "ms": 72,
+            "queryMs": 6,
+            "blockingMs": 0,
+            "longestTaskMs": 0
+          }
+        ]
+      }
+    },
+    "4": {
+      "baseline": {
+        "load": {
+          "firstResultsMs": 134402,
+          "blockingMs": 136771,
+          "longestTaskMs": 123772,
+          "domNodes": 432329,
+          "heapMb": 137.3
+        },
+        "interactions": [
+          {
+            "name": "Filter to Line 2",
+            "ms": 43448,
+            "queryMs": 1538,
+            "blockingMs": 53282,
+            "longestTaskMs": 21984
+          },
+          {
+            "name": "Pick 08:00 on the hour chart",
+            "ms": 13646,
+            "queryMs": 53,
+            "blockingMs": 7037,
+            "longestTaskMs": 2452
+          },
+          {
+            "name": "Sort by delay",
+            "ms": 1161,
+            "queryMs": 63,
+            "blockingMs": 1219,
+            "longestTaskMs": 849
+          }
+        ]
+      },
+      "virtual": {
+        "load": {
+          "firstResultsMs": 2306,
+          "blockingMs": 1405,
+          "longestTaskMs": 453,
+          "domNodes": 1301,
+          "heapMb": 15.8
+        },
+        "interactions": [
+          {
+            "name": "Filter to Line 2",
+            "ms": 451,
+            "queryMs": 164,
+            "blockingMs": 173,
+            "longestTaskMs": 177
+          },
+          {
+            "name": "Pick 08:00 on the hour chart",
+            "ms": 314,
+            "queryMs": 55,
+            "blockingMs": 44,
+            "longestTaskMs": 75
+          },
+          {
+            "name": "Sort by delay",
+            "ms": 262,
+            "queryMs": 80,
+            "blockingMs": 36,
+            "longestTaskMs": 82
+          }
+        ]
+      },
+      "columnar": {
+        "load": {
+          "firstResultsMs": 1762,
+          "blockingMs": 854,
+          "longestTaskMs": 365,
+          "domNodes": 1301,
+          "heapMb": 6.3
+        },
+        "interactions": [
+          {
+            "name": "Filter to Line 2",
+            "ms": 490,
+            "queryMs": 89,
+            "blockingMs": 186,
+            "longestTaskMs": 113
+          },
+          {
+            "name": "Pick 08:00 on the hour chart",
+            "ms": 368,
+            "queryMs": 64,
+            "blockingMs": 55,
+            "longestTaskMs": 80
+          },
+          {
+            "name": "Sort by delay",
+            "ms": 286,
+            "queryMs": 62,
+            "blockingMs": 32,
+            "longestTaskMs": 72
+          }
+        ]
+      },
+      "shipped": {
+        "load": {
+          "firstResultsMs": 1425,
+          "blockingMs": 584,
+          "longestTaskMs": 323,
+          "domNodes": 1293,
+          "heapMb": 4.7
+        },
+        "interactions": [
+          {
+            "name": "Filter to Line 2",
+            "ms": 387,
+            "queryMs": 49,
+            "blockingMs": 75,
+            "longestTaskMs": 86
+          },
+          {
+            "name": "Pick 08:00 on the hour chart",
+            "ms": 360,
+            "queryMs": 18,
+            "blockingMs": 43,
+            "longestTaskMs": 84
+          },
+          {
+            "name": "Sort by delay",
+            "ms": 324,
+            "queryMs": 5,
+            "blockingMs": 44,
+            "longestTaskMs": 79
+          }
+        ]
+      }
+    }
+  },
+  "payload": {
+    "rows": 47915,
+    "csv": {
+      "rawKb": 3158,
+      "gzipKb": 600,
+      "brotliKb": 432
+    },
+    "rowObjects": {
+      "rawKb": 5744,
+      "gzipKb": 446,
+      "brotliKb": 321,
+      "parseMs": 39.5
+    },
+    "columnar": {
+      "rawKb": 1165,
+      "gzipKb": 239,
+      "brotliKb": 211,
+      "parseMs": 10.2
+    }
+  }
+}
