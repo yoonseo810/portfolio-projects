@@ -1,0 +1,198 @@
+{
+  "id": "e6284860-145e-4d87-bf94-117148044184",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.kiosk_checkins": {
+      "name": "kiosk_checkins",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "fleet_id": {
+          "name": "fleet_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "kiosk_id": {
+          "name": "kiosk_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "code": {
+          "name": "code",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "flight_id": {
+          "name": "flight_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "received_at": {
+          "name": "received_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "conflicts": {
+          "name": "conflicts",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'[]'::jsonb"
+        }
+      },
+      "indexes": {
+        "kiosk_checkins_fleet_idx": {
+          "name": "kiosk_checkins_fleet_idx",
+          "columns": [
+            {
+              "expression": "fleet_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.kiosk_seats": {
+      "name": "kiosk_seats",
+      "schema": "",
+      "columns": {
+        "fleet_id": {
+          "name": "fleet_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "flight_id": {
+          "name": "flight_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "seat": {
+          "name": "seat",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "code": {
+          "name": "code",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "passenger_id": {
+          "name": "passenger_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "checkin_id": {
+          "name": "checkin_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "kiosk_seats_passenger_idx": {
+          "name": "kiosk_seats_passenger_idx",
+          "columns": [
+            {
+              "expression": "fleet_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "code",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "passenger_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "kiosk_seats_checkin_id_kiosk_checkins_id_fk": {
+          "name": "kiosk_seats_checkin_id_kiosk_checkins_id_fk",
+          "tableFrom": "kiosk_seats",
+          "tableTo": "kiosk_checkins",
+          "columnsFrom": [
+            "checkin_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "kiosk_seats_fleet_id_flight_id_seat_pk": {
+          "name": "kiosk_seats_fleet_id_flight_id_seat_pk",
+          "columns": [
+            "fleet_id",
+            "flight_id",
+            "seat"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

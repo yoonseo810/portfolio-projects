@@ -71,6 +71,14 @@ export const BOOKINGS: BookingDef[] = [
     ],
   },
   {
+    code: "P5MX2C",
+    flightId: "f214",
+    passengers: [
+      { id: "p1", first: "Priya", last: "Patel", type: "adult", cabin: "economy" },
+      { id: "p2", first: "Dev", last: "Patel", type: "adult", cabin: "economy" },
+    ],
+  },
+  {
     code: "R2HZ6W",
     flightId: "f650",
     passengers: [{ id: "p1", first: "Sam", last: "Martin", type: "adult", cabin: "economy" }],
@@ -78,8 +86,9 @@ export const BOOKINGS: BookingDef[] = [
 ];
 
 /** Shown on the find-booking screen so visitors can try every path. */
-export const DEMO_HINTS: { code: string; last: string; note: "family" | "premium" | "partial" | "closed" }[] = [
+export const DEMO_HINTS: { code: string; last: string; note: "family" | "sameFlight" | "premium" | "partial" | "closed" }[] = [
   { code: "K7Q2TR", last: "Tremblay", note: "family" },
+  { code: "P5MX2C", last: "Patel", note: "sameFlight" },
   { code: "N4VX8P", last: "Nguyen", note: "premium" },
   { code: "B9DL3M", last: "Okafor", note: "partial" },
   { code: "R2HZ6W", last: "Martin", note: "closed" },

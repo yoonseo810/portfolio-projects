@@ -43,6 +43,7 @@ const en = {
   samplesTitle: "Try a sample booking",
   samples: {
     family: "Family of three",
+    sameFlight: "Same flight as the family",
     premium: "Premium cabin",
     partial: "One already checked in",
     closed: "Check-in closed",
@@ -109,6 +110,10 @@ const en = {
   to: "To",
   finish: "Done",
 
+  offline: "Offline",
+  waiting: (n: number) => (n === 1 ? "1 check-in waiting to send" : `${n} check-ins waiting to send`),
+  offlineNote: "You can still check in. We'll send it as soon as the kiosk is back online.",
+
   idleTitle: "Are you still there?",
   idleBody: (s: number) => `For your privacy, this kiosk will start over in ${s} seconds.`,
   stillHere: "I'm still here",
@@ -151,6 +156,7 @@ const fr: Messages = {
   samplesTitle: "Essayez une réservation d'exemple",
   samples: {
     family: "Famille de trois",
+    sameFlight: "Même vol que la famille",
     premium: "Cabine Premium",
     partial: "Un voyageur déjà enregistré",
     closed: "Enregistrement fermé",
@@ -216,6 +222,10 @@ const fr: Messages = {
   from: "De",
   to: "À",
   finish: "Terminer",
+
+  offline: "Hors ligne",
+  waiting: (n) => (n === 1 ? "1 enregistrement en attente d'envoi" : `${n} enregistrements en attente d'envoi`),
+  offlineNote: "Vous pouvez quand même vous enregistrer. Nous l'enverrons dès que la borne sera de nouveau en ligne.",
 
   idleTitle: "Êtes-vous toujours là?",
   idleBody: (s) => `Pour protéger vos renseignements, cette borne recommencera dans ${s} secondes.`,
