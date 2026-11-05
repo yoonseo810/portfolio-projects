@@ -21,7 +21,7 @@ const LINE_ORDER = Object.keys(LINE_NAMES);
 
 /** One row of filters above everything they scope. Every change is written to the URL. */
 export function FilterBar({ dataset, filters, onChange }: { dataset: Dataset; filters: Filters; onChange: (patch: Partial<Filters>) => void }) {
-  const ids = { from: useId(), to: useId(), station: useId(), code: useId(), min: useId(), list: useId() };
+  const ids = { from: useId(), to: useId(), station: useId(), code: useId(), min: useId(), hour: useId(), list: useId() };
   const { day } = dataset.cols;
   let lo = Infinity;
   let hi = -Infinity;
@@ -155,11 +155,25 @@ export function FilterBar({ dataset, filters, onChange }: { dataset: Dataset; fi
             ))}
           </select>
         </div>
-        {filters.hour !== null && (
-          <Button variant="secondary" size="sm" className="h-9" onClick={() => onChange({ hour: null })}>
-            {String(filters.hour).padStart(2, "0")}:00 only ✕<span className="sr-only">, remove hour filter</span>
-          </Button>
-        )}
+        {/* Same filter as the hour chart, in a control with a full-size target (WCAG 2.5.8 equivalent). */}
+        <div>
+          <label htmlFor={ids.hour} className="mb-1.5 block text-xs font-medium text-muted">
+            Hour of day
+          </label>
+          <select
+            id={ids.hour}
+            value={filters.hour ?? ""}
+            onChange={(e) => onChange({ hour: e.target.value === "" ? null : Number(e.target.value) })}
+            className={fieldClass("h-9 w-auto! py-1")}
+          >
+            <option value="">Any</option>
+            {Array.from({ length: 24 }, (_, h) => (
+              <option key={h} value={h}>
+                {String(h).padStart(2, "0")}:00
+              </option>
+            ))}
+          </select>
+        </div>
         <Button
           variant="ghost"
           size="sm"
