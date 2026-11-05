@@ -10,7 +10,7 @@ Monorepo for my portfolio site and portfolio projects.
 | [`apps/job-copilot`](apps/job-copilot) | AI job-search copilot: parses postings, scores fit, drafts tailored bullets | [Live](https://portfolio-projects-wine.vercel.app/copilot) |
 | [`apps/realtime-board`](apps/realtime-board) | Real-time collaborative kanban board with presence, live cursors and drag and drop | [Live](https://portfolio-projects-wine.vercel.app/board) |
 | [`apps/data-explorer`](apps/data-explorer) | TTC subway delay explorer: Web Worker queries, virtualized table, URL-synced filters, SVG charts | [Live](https://portfolio-projects-wine.vercel.app/explorer) |
-| [`apps/kiosk`](apps/kiosk) | Offline-first airline check-in kiosk: service worker, IndexedDB outbox, idempotent sync, seat map, QR boarding passes, English/French | In progress |
+| [`apps/kiosk`](apps/kiosk) | Offline-first airline check-in kiosk: service worker, IndexedDB outbox, idempotent sync, seat map, QR boarding passes, English/French | [Live](https://portfolio-projects-wine.vercel.app/kiosk) |
 | [`apps/design-system`](apps/design-system) | Storybook docs for `packages/ui`; every story is a browser test with axe in both themes | [Live](https://portfolio-projects-gtds.vercel.app) |
 | [`packages/ui`](packages/ui) | Shared design system (tokens, components) used by every app | — |
 
