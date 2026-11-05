@@ -11,6 +11,7 @@ pnpm + Turborepo monorepo for Michael Seo's portfolio. Every app deploys to its 
 | `apps/kiosk` | Offline-first airline check-in kiosk (Next.js 16, service worker, IndexedDB outbox, Supabase, Drizzle; tests on PGlite) | https://portfolio-projects-wine.vercel.app/kiosk (zone; Vercel project `portfolio-projects-kiosk`, wired via `KIOSK_URL`) |
 | `apps/design-system` | Storybook 10 for `@repo/ui` | https://portfolio-projects-gtds.vercel.app |
 | `packages/ui` | Shared design system (tokens + React components) | — |
+| `packages/e2e` | Playwright e2e + axe + Lighthouse budgets for portfolio, explorer and kiosk (CI job "e2e + Lighthouse") | — |
 
 ## Ground rules
 
@@ -28,6 +29,8 @@ pnpm + Turborepo monorepo for Michael Seo's portfolio. Every app deploys to its 
 ```bash
 pnpm lint && pnpm typecheck && pnpm test && pnpm build
 ```
+
+End-to-end tests and Lighthouse budgets run against production builds: `pnpm turbo run build --filter=portfolio --filter=data-explorer --filter=kiosk && pnpm --filter e2e e2e` (see `packages/e2e/README.md`).
 
 Storybook tests need Chromium: `pnpm --filter design-system exec playwright install chromium`, or set `PLAYWRIGHT_BROWSERS_PATH` if a browser is preinstalled.
 

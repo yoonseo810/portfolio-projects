@@ -13,6 +13,7 @@ Monorepo for my portfolio site and portfolio projects.
 | [`apps/kiosk`](apps/kiosk) | Offline-first airline check-in kiosk: service worker, IndexedDB outbox, idempotent sync, seat map, QR boarding passes, English/French | [Live](https://portfolio-projects-wine.vercel.app/kiosk) |
 | [`apps/design-system`](apps/design-system) | Storybook docs for `packages/ui`; every story is a browser test with axe in both themes | [Live](https://portfolio-projects-gtds.vercel.app) |
 | [`packages/ui`](packages/ui) | Shared design system (tokens, components) used by every app | — |
+| [`packages/e2e`](packages/e2e) | Playwright end-to-end tests, axe (WCAG 2.2) and Lighthouse budgets that run in CI | — |
 
 ## Stack
 
